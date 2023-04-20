@@ -45,9 +45,42 @@
     border: 1px solid blue;
     background-color: wheat;
     color: blue;
-   
     
-  
-  
   }
+
+
+  @media (max-width: 768px){
+
+    body{
+    
+        height: 100vh;
+    
+    }
+
+    .container{
+        width: 80%;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 50px 50px 50px;}
+
+    h1{
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+    }
+
+    button{
+        width: 45%;
+        margin-top: 30px;
+       
+    }
+
+
+
+    
+
+  }
+
   
