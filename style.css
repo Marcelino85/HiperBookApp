@@ -46,7 +46,7 @@
   }
   
   div.container button{
-    
+      width: 30%;
     font-size: 16pt;
     padding: 10px 15px;
     border: 0;
@@ -91,7 +91,8 @@
     }
 
     button{
-        width: 100%;
+   margin-left: 35%;
+        width: 30%;
         margin-top: 30px;
        
     }
@@ -106,6 +107,7 @@
 
     #banner{
       background-position: 100%;
+      background-size: cover;
   }
 
 
