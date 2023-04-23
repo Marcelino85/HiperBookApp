@@ -15,28 +15,31 @@
   }
   
   #banner{
-    background-image: url(https://s2.glbimg.com/DIH5Hpfg_mnL8ocWhxh-IqveUtY=/0x0:1200x800/924x0/smart/filters:strip_icc/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2022/D/u/vy2A8XT52rahRmGQnKhA/design-sem-nome.jpg);
-
+    background-image: url(https://files.adventistas.org/noticias/pt/2023/02/a-biblia-e-a-justica-social.jpg);
     background-position: 50% 50%;
     background-size: cover;
     width: 100%;
-    height: 600px;
-    
+    height: 600px;position: absolute;
 }
 
   div.container{
+    position: relative;
     min-width: 500px;
-    background-color: #677179;
-    
+ 
+    margin-top: 30%;
     padding: 15px;
     text-align: center;
   }
   
   div.container h1{
-    width: 100%;
+    min-width: 500px;
+    color:#ddd;
     font-size: 22pt;
     color: rgb(80.80.80);
     margin-bottom: 15px ;
+    margin-top: -30%;
+   
+    
   
     
    
@@ -48,7 +51,7 @@
     padding: 10px 15px;
     border: 0;
     border-radius: 5px;
-    background-color: #0e0d0d;
+    background-color: #6262e6;
     color: #ddd;
     cursor: pointer;
     transition: 1s;
@@ -75,22 +78,20 @@
   }
 
     .container{
-        width: 80%;
-        height: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      width: 95%;
+      display: flex;
+      flex-direction: column;
         
       }
 
     h1{
-            width: 60%;
+            width: 100%;
             display: flex;
             flex-direction: column;
     }
 
     button{
-        width: 45%;
+        width: 100%;
         margin-top: 30px;
        
     }
@@ -100,7 +101,7 @@
 @media (max-width:600px) {
     
     body{
-        height: 100vh;
+        height: 70vh;
     }
 
     #banner{
@@ -109,12 +110,9 @@
 
 
     .container{
-        width: 100%;
-        height: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 50px 5px 50px 27px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
     }
 }
 
