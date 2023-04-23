@@ -7,25 +7,38 @@
   }
   
   body{
-    background-color:blue;
+    background-color:#0e0d0d;
     width: 100%;
     min-height:100vh;
     display: grid;
     place-items: center;
   }
   
+  #banner{
+    background-image: url(https://s2.glbimg.com/DIH5Hpfg_mnL8ocWhxh-IqveUtY=/0x0:1200x800/924x0/smart/filters:strip_icc/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2022/D/u/vy2A8XT52rahRmGQnKhA/design-sem-nome.jpg);
+
+    background-position: 50% 50%;
+    background-size: cover;
+    width: 100%;
+    height: 600px;
+    
+}
+
   div.container{
     min-width: 500px;
-    background-color: white;
-    border-radius: 15px;
+    background-color: #677179;
+    
     padding: 15px;
     text-align: center;
   }
   
   div.container h1{
+    width: 100%;
     font-size: 22pt;
     color: rgb(80.80.80);
-    margin-bottom: 15px 0;
+    margin-bottom: 15px ;
+  
+    
    
   }
   
@@ -35,16 +48,17 @@
     padding: 10px 15px;
     border: 0;
     border-radius: 5px;
-    background-color: blue;
-    color: wheat;
+    background-color: #0e0d0d;
+    color: #ddd;
     cursor: pointer;
     transition: 1s;
   } 
   
   div.container button:hover{
-    border: 1px solid blue;
-    background-color: wheat;
-    color: blue;
+    border: 1px solid #0e0d0d;
+    background-color: #ddd;
+    cursor: point;
+    color: #0e0d0d;
     
   }
 
@@ -52,10 +66,13 @@
   @media (max-width: 768px){
 
     body{
-    
-        height: 100vh;
+      height: 70vh;
+     
     
     }
+    #banner{
+      background-position: 100%;
+  }
 
     .container{
         width: 80%;
@@ -63,7 +80,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 50px 50px 50px;}
+        
+      }
 
     h1{
             width: 60%;
@@ -80,13 +98,18 @@
 
 
 @media (max-width:600px) {
+    
     body{
         height: 100vh;
     }
 
+    #banner{
+      background-position: 100%;
+  }
+
 
     .container{
-        width: 80%;
+        width: 100%;
         height: 400px;
         display: flex;
         flex-direction: column;

@@ -6,7 +6,7 @@ palavras[0] = "'Não fui eu que ordenei a você? Seja forte e corajoso! Não se 
 
 palavras[1] = "'Eu disse essas coisas para que em mim vocês tenham paz. Neste mundo vocês terão aflições; contudo, tenham ânimo! Eu venci o mundo'. (Jo 16:33)";
 
-palavras[2] = "'Se o meu povo, que se chama pelo meu nome, se humilhar e orar, buscar a minha face e se afastar dos seus maus caminhos, dos céus o ouvirei, perdoarei o seu pecado e curarei a sua terra'. (2 Cronicas 7.14";
+palavras[2] = "'Se o meu povo, que se chama pelo meu nome, se humilhar e orar, buscar a minha face e se afastar dos seus maus caminhos, dos céus o ouvirei, perdoarei o seu pecado e curarei a sua terra'. (2 Cronicas 7.14)";
 
 palavras[3] = "'Busquem, pois, em primeiro lugar o Reino de Deus e a sua justiça, e todas essas coisas serão acrescentadas a vocês'.(Mt 6.33)";
 
@@ -18,7 +18,7 @@ palavras[5] = "'E, agora, que o Deus da paz os torne santos em todos os aspectos
 
 botaoSortear.addEventListener("click", ()=>{
 
-numeroSorteado.innerHTML = "<h3>Palavra do dia:</h3><br> " + palavras[
+numeroSorteado.innerHTML =  palavras[
 Math.floor(Math. random() * palavras. length)
 
 ]
