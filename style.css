@@ -1,4 +1,96 @@
-*{
+body{
+  display: flex;
+  flex-direction:center ;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://files.adventistas.org/noticias/pt/2023/02/a-biblia-e-a-justica-social.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position-x: center;
+  background-position-y:20%;
+  background-color: rgb(21, 21, 247);
+  
+ 
+}
+
+.container{
+  width: 500px;
+    max-width: 500px;
+    height: 25vw;
+    max-height: 150px;
+    position: relative;
+  text-align: center;
+  margin-top: 8%;
+  color: aliceblue;
+}
+
+h1{
+  font: 15px;
+
+}
+
+
+
+button{
+  width: 20%;
+  border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* *{
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
@@ -74,8 +166,11 @@
     
     }
     #banner{
+      width: 100vh;
+      height: 100vh;
       background-position: 100%;
-  }
+      background-size: cover;
+    }
 
     .container{
       width: 95%;
@@ -91,7 +186,7 @@
     }
 
     button{
-   margin-left: 35%;
+   
         width: 30%;
         margin-top: 30px;
        
@@ -106,16 +201,26 @@
     }
 
     #banner{
+      width: 100vh;
+      height: 100vh;
       background-position: 100%;
       background-size: cover;
-  }
-
-
-    .container{
+      background-clip: inherit;
+    }
+    
+    
+    .container {
+      border: 1px solid red;
       width: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
-}
+
+    h1{
+      border: 1px solid red;
+    }
+
+} */
 
   

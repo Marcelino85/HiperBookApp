@@ -23,7 +23,7 @@ palavras[9] = "'Consagre ao Senhor tudo o que você faz, e os seus planos serão
 
 palavras[10] = "'Quem tem muitos amigos pode chegar à ruína, mas existe amigo mais apegado que um irmão'. (Pv 18.24)";
 
-palavras[10] = "'Não se amoldem ao padrão deste mundo, mas transformem-se pela renovação da sua mente, para que sejam capazes de experimentar e comprovar a boa, agradável e perfeita vontade de Deus'. (Rm 12.1)";
+palavras[11] = "'Não se amoldem ao padrão deste mundo, mas transformem-se pela renovação da sua mente, para que sejam capazes de experimentar e comprovar a boa, agradável e perfeita vontade de Deus'. (Rm 12.1)";
 
 
 
