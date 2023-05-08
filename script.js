@@ -30,7 +30,7 @@ palavras[11] = "'Não se amoldem ao padrão deste mundo, mas transformem-se pela
 botaoSortear.addEventListener("click", ()=>{
 
 numeroSorteado.innerHTML =  palavras[
-Math.floor(Math. random() * palavras. length)
+Math.floor(Math. random() * palavras.length)
 
 ]
 
