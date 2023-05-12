@@ -25,6 +25,14 @@ palavras[10] = "'Quem tem muitos amigos pode chegar à ruína, mas existe amigo 
 
 palavras[11] = "'Não se amoldem ao padrão deste mundo, mas transformem-se pela renovação da sua mente, para que sejam capazes de experimentar e comprovar a boa, agradável e perfeita vontade de Deus'. (Rm 12.1)";
 
+palavras[12] = "'Então respondeu Jesus, e disse-lhe: Ó mulher, grande é a tua fé! Seja isso feito para contigo como tu desejas. E desde aquela hora a sua filha ficou sã (Mt 15.28)'"; 
+
+palavras[13] = "'Deixando, pois, toda a malícia, e todo o engano, e fingimentos, e invejas, e todas as murmurações,Desejai afetuosamente, como meninos novamente nascidos, o leite racional, não falsificado, para que por ele vades crescendo (1 Pd 2.1,2)'"; 
+
+palavras[14] = "'E, chegando-vos para ele, pedra viva, reprovada, na verdade, pelos homens, mas para com Deus eleita e preciosa,Vòs também, como pedras vivas, sois edificados casa espiritual e sacerdòcio santo, para oferecer sacrifícios espirituais agradáveis a Deus por Jesus Cristo. (1 Pd 2.4,5)'"; 
+
+palavras[15] = "'Procura apresentar-te a Deus aprovado, como obreiro que não tem de que se envergonhar, que maneja bem a palavra da verdade (2 Tm 2:15)'"; 
+
 
 
 botaoSortear.addEventListener("click", ()=>{
