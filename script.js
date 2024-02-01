@@ -26,7 +26,7 @@ btn.addEventListener("click", async () => {
             
             const livro = data.book.name
             const capitulo = data.chapter.number
-            const versiculo = data.verses[length].number
+            const versiculo = data.verses.number
             
             palavraSortida.innerHTML = `(${livro} ${capitulo}:${versiculo})`
         } else {
