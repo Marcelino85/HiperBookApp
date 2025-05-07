@@ -1,293 +1,109 @@
-:root{
-  --bg-color:#1f242d;
-  --second-bg-color:#323946;
-  --text-color:#fff;
-  --main-color:#0ef;
+:root {
+  --bg-color: #121212;
+  --card-color: #1e1e2f;
+  --text-color: #ffffff;
+  --main-color: #00d9ff;
 }
 
-body{
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
   background-color: var(--bg-color);
-  
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-header{
-  color: var(--main-color);
+header {
   text-align: center;
-
+  padding: 2rem 1rem;
+  background-color: var(--card-color);
+  color: var(--main-color);
+  font-size: 1.5rem;
 }
 
-section{
-  background: var(--second-bg-color);
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.container {
+  background-color: var(--card-color);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+#verso {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: #dcdcdc;
+}
+
+button {
+  background-color: var(--main-color);
+  color: var(--bg-color);
+  border: none;
+  padding: 0.8rem 2rem;
   border-radius: 10px;
-  padding: 15px;
-  width: 500px;
-  margin: auto;
-  box-shadow: 5px 5px 10px rgba(0,0,0,0.363) ;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-footer{
-  color: var(--main-color);
+button:hover {
+  background-color: #00bcd4;
+}
+
+footer {
   text-align: center;
-  font-size: italic;
+  padding: 1rem;
+  background-color: var(--card-color);
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-#contat2{
-
-text-align: center;
-}
-.contat{
-text-align: center;
-color: var(--text-color);
-}
-
-button{
-width: 10rem;
-border-radius: 8px;
-border: none;
-background-color: var(--main-color);
-color: var(--text-color);
-text-align: center;
-font: normal 13pt Arial;
-transition: .5s;
-}
-button:hover{
-background-color:rgb(19, 158, 168);
-color: var(--text-color);
-
-
-
-}
-
-
-
-
-@media (max-width: 768px){
-  body{
-    width: 100%;
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem;
   }
-  
-  section{
-    width: 70%;
+
+  #verso {
+    font-size: 1rem;
   }
 }
 
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* #banner{
-  background-image: url(https://files.adventistas.org/noticias/pt/2023/02/a-biblia-e-a-justica-social.jpg);
-  background-position: 50% 50%;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* *{
-    padding: 0%;
-    margin: 0%;
-    box-sizing: border-box;
-    font-family: Arial;
-  
-  }
-  
-  body{
-    background-color:#0e0d0d;
-    width: 100%;
-    min-height:100vh;
-    display: grid;
-    place-items: center;
-  }
-  
-  #banner{
-    background-image: url(https://files.adventistas.org/noticias/pt/2023/02/a-biblia-e-a-justica-social.jpg);
-    background-position: 50% 50%;
-    background-size: cover;
-    width: 100%;
-    height: 600px;position: absolute;
+#compartilhar-container {
+  text-align: center;
+  margin-top: 1rem;
 }
 
-  div.container{
-    position: relative;
-    min-width: 500px;
- 
-    margin-top: 30%;
-    padding: 15px;
-    text-align: center;
-  }
-  
-  div.container h1{
-    min-width: 500px;
-    color:#ddd;
-    font-size: 22pt;
-    color: rgb(80.80.80);
-    margin-bottom: 15px ;
-    margin-top: -19%;
-   
-    
-  
-    
-   
-  }
-  
-  div.container button{
-      width: 30%;
-    font-size: 16pt;
-    padding: 10px 15px;
-    border: 0;
-    border-radius: 5px;
-    background-color: #6262e6;
-    color: #ddd;
-    cursor: pointer;
-    transition: 1s;
-  } 
-  
-  div.container button:hover{
-    border: 1px solid #0e0d0d;
-    background-color: #ddd;
-    cursor: point;
-    color: #0e0d0d;
-    
-  }
-
-
-  @media (max-width: 768px){
-
-    body{
-      height: 70vh;
-     
-    
-    }
-    #banner{
-      width: 100vh;
-      height: 100vh;
-      background-position: 100%;
-      background-size: cover;
-    }
-
-    .container{
-      width: 95%;
-      display: flex;
-      flex-direction: column;
-        
-      }
-
-    h1{
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-    }
-
-    button{
-   
-        width: 30%;
-        margin-top: 30px;
-       
-    }
+#btnCompartilhar {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
+#btnCompartilhar:hover {
+  background-color: rgb(19, 158, 168);
+}
 
-@media (max-width:600px) {
-    
-    body{
-        height: 70vh;
-    }
-
-    #banner{
-      width: 100vh;
-      height: 100vh;
-      background-position: 100%;
-      background-size: cover;
-      background-clip: inherit;
-    }
-    
-    
-    .container {
-      border: 1px solid red;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1{
-      border: 1px solid red;
-    }
-
-} */
-
-  
+#redes-sociais a {
+  margin: 0 0.5rem;
+  color: var(--main-color);
+  text-decoration: none;
+  font-weight: bold;
+}

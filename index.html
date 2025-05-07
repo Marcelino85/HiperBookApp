@@ -1,37 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="./style.css" />
+  <title>Palavra do Dia</title>
 </head>
 <body>
-    <header>
-        <h1>Palavra de Deus</h1>
-    </header>
+  <header>
+    <h1>📖 Palavra de Deus</h1>
+  </header>
 
-    <section>
-      <div class="container">
-        <div class="contat">
-            <h1>Palavra do dia:<br></h1>
-        </div>
-        <div class="contat">
-            <p id="versos">Versos:<br></p>
-        </div>
+  <main>
+    <section class="container">
+      <h2 id="referencia">Clique no botão para receber um versículo</h2>
+      <p id="verso">💬</p>
+      <button id="btn">Receber Versículo</button>
 
-        <div id="contat2">
-            <button>Click</button>
+      <div id="compartilhar-container">
+        <button id="btnCompartilhar">Compartilhar</button>
+      
+        <div id="redes-sociais" style="display: none;">
+          <a id="share-whatsapp" target="_blank">WhatsApp</a>
+          <a id="share-twitter" target="_blank">Twitter</a>
         </div>
-
       </div>
-
+      
     </section>
+  </main>
 
-    <footer>
-        <p>&copy;App Desenvolvido por Marcelino Albuquerque</p>
-    </footer>
+  <footer>
+    <p>&copy; App desenvolvido por Marcelino Albuquerque</p>
+  </footer>
 
-    <script src="./script.js"></script>
+  <script src="./versos.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>

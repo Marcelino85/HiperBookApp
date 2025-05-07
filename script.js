@@ -1,42 +1,36 @@
-const palavraSortida = document.querySelectorAll('div.container h1')[0];
-const btn = document.getElementById('contat2');
-const versos = document.getElementById('versos');
-const cap = Math.floor(Math.random()*100)
+const btn = document.getElementById("btn");
+const verso = document.getElementById("verso");
+const referencia = document.getElementById("referencia");
+const btnCompartilhar = document.getElementById('btnCompartilhar');
+const shareWhatsapp = document.getElementById('share-whatsapp');
+const shareTwitter = document.getElementById('share-twitter');
+const redesSociais = document.getElementById('redes-sociais');
 
-btn.addEventListener("click", async () => {
-    try {
 
-        // URL da API
-        const apiUrl = `https://www.abibliadigital.com.br/api/verses/nvi/sl/${cap}`;
+btn.addEventListener("click", () => {
+  const aleatorio = Math.floor(Math.random() * versiculos.length);
+  const selecionado = versiculos[aleatorio];
 
-        // Chamada à API
-        const response = await fetch(apiUrl);
-        
-        if (!response.ok) {
-            throw new Error('Erro ao obter os dados da API');
-        }
+  verso.textContent = `"${selecionado.texto}"`;
+  referencia.textContent = `📖 ${selecionado.referencia}`;
 
-        const data = await response.json();
-        console.log(data)
+  const mensagem = `"${randomVerse}" (${livro} ${capitulo}:${versiculo})`;
 
-        // Exibir os dados da API
-        if (data && data.verses && data.verses.length > 0) {
-            const randomVerse = data.verses[Math.floor(Math.random() * data.verses.length)].text;
-            versos.innerHTML = randomVerse;
-            
-            const livro = data.book.name
-            const capitulo = data.chapter.number
-            const versiculo = data.verses[0].number
-            
-            palavraSortida.innerHTML = `(${livro} ${capitulo}:${versiculo})`
-        } else {
-            throw new Error('Nenhum verso encontrado');
-        }
-        
-        // Se necessário, você pode utilizar palavraSortida aqui também
-        // palavraSortida.innerHTML =  `"${data.verses[0].text}" (${data.book.name} ${data.chapter.number}.${data.verses[0].number})`;
-    } catch (error) {
-        console.error('Ocorreu um erro:', error);
-    }
+if (navigator.share) {
+  redesSociais.style.display = 'none'; // esconde fallback
+  btnCompartilhar.onclick = () => {
+    navigator.share({
+      title: 'Versículo do Dia',
+      text: mensagem,
+      url: window.location.href
+    }).catch((err) => console.error('Erro ao compartilhar:', err));
+  };
+} else {
+  // fallback para redes sociais
+  redesSociais.style.display = 'block';
+  const textoCodificado = encodeURIComponent(mensagem);
+  shareWhatsapp.href = `https://wa.me/?text=${textoCodificado}`;
+  shareTwitter.href = `https://twitter.com/intent/tweet?text=${textoCodificado}`;
+}
+
 });
-
