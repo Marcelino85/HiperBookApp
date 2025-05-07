@@ -6,6 +6,7 @@ const shareWhatsapp = document.getElementById('share-whatsapp');
 const shareTwitter = document.getElementById('share-twitter');
 const redesSociais = document.getElementById('redes-sociais');
 
+let mensagemAtual = ""; // armazenar a última mensagem exibida
 
 btn.addEventListener("click", () => {
   const aleatorio = Math.floor(Math.random() * versiculos.length);
@@ -14,23 +15,28 @@ btn.addEventListener("click", () => {
   verso.textContent = `"${selecionado.texto}"`;
   referencia.textContent = `📖 ${selecionado.referencia}`;
 
-  const mensagem = `"${randomVerse}" (${livro} ${capitulo}:${versiculo})`;
+  mensagemAtual = `"${selecionado.texto}" - ${selecionado.referencia}`;
 
-if (navigator.share) {
-  redesSociais.style.display = 'none'; // esconde fallback
-  btnCompartilhar.onclick = () => {
-    navigator.share({
-      title: 'Versículo do Dia',
-      text: mensagem,
-      url: window.location.href
-    }).catch((err) => console.error('Erro ao compartilhar:', err));
-  };
-} else {
-  // fallback para redes sociais
-  redesSociais.style.display = 'block';
-  const textoCodificado = encodeURIComponent(mensagem);
-  shareWhatsapp.href = `https://wa.me/?text=${textoCodificado}`;
-  shareTwitter.href = `https://twitter.com/intent/tweet?text=${textoCodificado}`;
-}
+  if (navigator.share) {
+    redesSociais.style.display = 'none'; // esconder fallback
+  } else {
+    // fallback para redes sociais
+    redesSociais.style.display = 'block';
+    const textoCodificado = encodeURIComponent(mensagemAtual);
+    shareWhatsapp.href = `https://wa.me/?text=${textoCodificado}`;
+    shareTwitter.href = `https://twitter.com/intent/tweet?text=${textoCodificado}`;
+  }
+});
 
+// funcionalidade do botão de compartilhar
+btnCompartilhar.addEventListener("click", () => {
+  if (navigator.share) {
+    navigator
+      .share({
+        title: 'Versículo do Dia',
+        text: mensagemAtual,
+        url: window.location.href
+      })
+      .catch((err) => console.error('Erro ao compartilhar:', err));
+  }
 });
