@@ -89,55 +89,61 @@
         const apiKey = "AIzaSyA6wQPttz255vUzJ16NcN18N19vReY7loU";; 
         let currentMeditation = null;
 
-        async function generateMeditation() {
-            const btn = document.getElementById('generate-btn');
-            const btnText = document.getElementById('btn-text');
-            const btnLoader = document.getElementById('btn-loader');
-            
-            btn.disabled = true;
-            btnText.innerText = "Consultando as Escrituras...";
-            btnLoader.classList.remove('hidden');
+       async function generateMeditation() {
+    const btn = document.getElementById('generate-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoader = document.getElementById('btn-loader');
+    
+    btn.disabled = true;
+    btnText.innerText = "Consultando as Escrituras...";
+    btnLoader.classList.remove('hidden');
 
-            const systemPrompt = `Você é um guia espiritual cristão. Gere uma meditação bíblica em JSON com a seguinte estrutura: 
-            {
-                "titulo": "Título Curto",
-                "versiculo": {"texto": "Texto do versículo", "referencia": "Livro Capítulo:Versículo"},
-                "reflexao": "Um parágrafo inspirador sobre o versículo",
-                "pontos": ["Ponto 1", "Ponto 2", "Ponto 3"],
-                "oracao": "Uma oração curta e poderosa"
-            }
-            Importante: Use apenas JSON válido. Escolha versículos de conforto, sabedoria ou esperança.`;
+    const systemPrompt = `Você é um guia espiritual cristão. Gere uma meditação bíblica em JSON com a seguinte estrutura: 
+    {
+        "titulo": "Título Curto",
+        "versiculo": {"texto": "Texto do versículo", "referencia": "Livro Capítulo:Versículo"},
+        "reflexao": "Um parágrafo inspirador sobre o versículo",
+        "pontos": ["Ponto 1", "Ponto 2", "Ponto 3"],
+        "oracao": "Uma oração curta e poderosa"
+    }
+    Importante: Use apenas JSON válido. Escolha versículos de conforto, sabedoria ou esperança.`;
 
-            try {
-                // Usando o endpoint do Gemini 1.5 Flash (estável e rápido)
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: "Gere uma nova meditação bíblica para edificar o meu dia." }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] },
-                        generationConfig: { 
-                            responseMimeType: "application/json",
-                            temperature: 0.7 
-                        }
-                    })
-                });
+    try {
+        // Ajuste na URL e no corpo da requisição para garantir compatibilidade v1
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ 
+                    role: "user",
+                    parts: [{ text: systemPrompt + "\n\nGere uma nova meditação bíblica para edificar o meu dia." }] 
+                }],
+                generationConfig: { 
+                    responseMimeType: "application/json",
+                    temperature: 0.7 
+                }
+            })
+        });
 
-                if (!response.ok) throw new Error("Erro na API");
-
-                const data = await response.json();
-                const textResponse = data.candidates[0].content.parts[0].text;
-                currentMeditation = JSON.parse(textResponse);
-                renderUI(currentMeditation);
-            } catch (error) {
-                console.error(error);
-                alert("Erro ao conectar com a IA. Verifique sua chave API ou conexão.");
-            } finally {
-                btn.disabled = false;
-                btnText.innerText = "Receber Versículo do Dia";
-                btnLoader.classList.add('hidden');
-            }
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Erro detalhado da API:", errorData);
+            throw new Error("Erro na API");
         }
+
+        const data = await response.json();
+        const textResponse = data.candidates[0].content.parts[0].text;
+        currentMeditation = JSON.parse(textResponse);
+        renderUI(currentMeditation);
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao conectar com a IA. Verifique se sua chave tem permissão para o modelo Gemini 1.5 Flash.");
+    } finally {
+        btn.disabled = false;
+        btnText.innerText = "Receber Versículo do Dia";
+        btnLoader.classList.add('hidden');
+    }
+}
 
         function renderUI(data) {
             const container = document.getElementById('content-area');
