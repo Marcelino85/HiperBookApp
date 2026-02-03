@@ -98,28 +98,30 @@
     btnText.innerText = "Consultando as Escrituras...";
     btnLoader.classList.remove('hidden');
 
-    const systemPrompt = `Você é um guia espiritual cristão. Gere uma meditação bíblica em JSON com a seguinte estrutura: 
+    // Reforçamos no prompt que queremos APENAS o JSON puro
+    const systemPrompt = `Você é um guia espiritual cristão. Gere uma meditação bíblica EXCLUSIVAMENTE em formato JSON. 
+    Não escreva nenhum texto antes ou depois do JSON.
+    Estrutura:
     {
         "titulo": "Título Curto",
         "versiculo": {"texto": "Texto do versículo", "referencia": "Livro Capítulo:Versículo"},
         "reflexao": "Um parágrafo inspirador sobre o versículo",
         "pontos": ["Ponto 1", "Ponto 2", "Ponto 3"],
         "oracao": "Uma oração curta e poderosa"
-    }
-    Importante: Use apenas JSON válido. Escolha versículos de conforto, sabedoria ou esperança.`;
+    }`;
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 contents: [{ 
-                    role: "user",
-                    parts: [{ text: systemPrompt + "\n\nGere uma nova meditação bíblica para edificar o meu dia." }] 
+                    parts: [{ text: systemPrompt + "\n\nGere uma meditação bíblica agora em JSON." }] 
                 }],
                 generationConfig: { 
-                    response_mime_type: "application/json", // Corrigido para snake_case
-                    temperature: 0.7 
+                    // Removemos o response_mime_type que estava causando o erro 400
+                    temperature: 0.7,
+                    maxOutputTokens: 1000
                 }
             })
         });
@@ -131,12 +133,16 @@
         }
 
         const data = await response.json();
-        const textResponse = data.candidates[0].content.parts[0].text;
+        let textResponse = data.candidates[0].content.parts[0].text;
+        
+        // Limpeza de segurança: remove possíveis crases que a IA coloca (markdown)
+        textResponse = textResponse.replace(/```json/g, "").replace(/```/g, "").trim();
+        
         currentMeditation = JSON.parse(textResponse);
         renderUI(currentMeditation);
     } catch (error) {
-        console.error(error);
-        alert("Erro ao processar a meditação. Tente novamente em instantes.");
+        console.error("Erro completo:", error);
+        alert("Quase lá! Ocorreu um erro ao processar o formato da resposta. Tente clicar novamente.");
     } finally {
         btn.disabled = false;
         btnText.innerText = "Receber Versículo do Dia";
