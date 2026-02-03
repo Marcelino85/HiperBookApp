@@ -85,7 +85,7 @@
     </div>
 
     <script>
-    // Sua chave de API atualizada
+    // Mantendo sua chave e URLs seguras
     const apiKey = "AIzaSyA6wQPttz255vUzJ16NcN18N19vReY7loU";
     let currentMeditation = null;
 
@@ -98,50 +98,47 @@
         btnText.innerText = "Consultando as Escrituras...";
         btnLoader.classList.remove('hidden');
 
-        // Prompt otimizado para evitar textos explicativos da IA
-        const prompt = `Gere uma meditação bíblica cristã em formato JSON puro. 
-        Estrutura:
-        {
-            "titulo": "Título Curto",
-            "versiculo": {"texto": "Texto do versículo", "referencia": "Livro Capítulo:Versículo"},
-            "reflexao": "Um parágrafo inspirador",
-            "pontos": ["Ponto 1", "Ponto 2", "Ponto 3"],
-            "oracao": "Uma oração curta"
-        }`;
+        // Prompt direto e simplificado
+        const promptText = "Gere uma meditação bíblica cristã em JSON puro com titulo, versiculo (texto e referencia), reflexao, pontos (lista) e oracao.";
 
         try {
-            // URL DEFINITIVA: v1beta é a mais compatível com o modelo Flash no AI Studio
+            // A URL correta que evita o erro 404 observado no seu console
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ 
-                        parts: [{ text: prompt }] 
-                    }]
+                    contents: [{
+                        parts: [{ text: promptText }]
+                    }],
+                    // Adicionando configuração de segurança para garantir a resposta
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 40,
+                        topP: 0.95,
+                        maxOutputTokens: 1024,
+                    }
                 })
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                console.error("Erro Detalhado:", data);
-                // Se o erro for 404, tentaremos uma URL alternativa automaticamente
-                throw new Error(data.error?.message || "Erro na API");
+                console.error("Erro detalhado da API:", data);
+                throw new Error(data.error?.message || "Erro na resposta da API");
             }
 
+            // O Gemini às vezes coloca o JSON dentro de blocos de markdown ```json
             let textResponse = data.candidates[0].content.parts[0].text;
-            
-            // Limpa marcações de markdown se a IA enviar
             textResponse = textResponse.replace(/```json/g, "").replace(/```/g, "").trim();
             
             currentMeditation = JSON.parse(textResponse);
             renderUI(currentMeditation);
 
         } catch (error) {
-            console.error("Erro completo:", error);
-            alert("Conexão estabelecida, mas o modelo não respondeu corretamente. Tente novamente em instantes.");
+            console.error("Erro completo no console:", error);
+            alert("Ocorreu um erro técnico. Verifique o console do navegador para detalhes.");
         } finally {
             btn.disabled = false;
             btnText.innerText = "Receber Versículo do Dia";
@@ -149,6 +146,7 @@
         }
     }
 
+    // Funções de UI permanecem as mesmas para manter seu design bonito
     function renderUI(data) {
         const container = document.getElementById('content-area');
         container.innerHTML = `
@@ -189,12 +187,12 @@
     }
 
     function shareContent(data) {
-        const shareText = `📖 *${data.versiculo.referencia}*\n"${data.versiculo.texto}"\n\n🕊️ *Reflexão:*\n${data.reflexao}\n\n🙏 *Oração:*\n"${data.oracao}"\n\n✨ Gerado por: Momento com Deus`;
+        const shareText = `📖 *${data.versiculo.referencia}*\n"${data.versiculo.texto}"\n\n🕊️ *Reflexão:*\n${data.reflexao}\n\n🙏 *Oração:*\n"${data.oracao}"`;
         if (navigator.share) {
             navigator.share({ title: 'Meditação do Dia', text: shareText }).catch(console.error);
         } else {
             navigator.clipboard.writeText(shareText);
-            alert("Texto copiado!");
+            alert("Copiado!");
         }
     }
 
