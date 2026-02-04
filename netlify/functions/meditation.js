@@ -1,4 +1,4 @@
-export default async (req) => {
+export default async () => {
   try {
     const prompt = `
 Gere uma meditação bíblica cristã em JSON puro com:
@@ -28,6 +28,17 @@ Gere uma meditação bíblica cristã em JSON puro com:
     );
 
     const data = await response.json();
+
+    // 🔴 SE A API RESPONDER ERRO, DEVOLVEMOS CLARO
+    if (!data.candidates || !data.candidates.length) {
+      return new Response(
+        JSON.stringify({
+          error: "Resposta inválida do Gemini",
+          detalhes: data,
+        }),
+        { status: 500 }
+      );
+    }
 
     let text = data.candidates[0].content.parts[0].text
       .replace(/```json|```/g, "")
