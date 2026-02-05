@@ -1,7 +1,14 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export const handler = async () => {
+export default async (request, context) => {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: "API Key não configurada" }),
+        { status: 500 }
+      );
+    }
+
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     const model = genAI.getGenerativeModel({
@@ -9,34 +16,40 @@ export const handler = async () => {
     });
 
     const prompt = `
-Gere uma meditação bíblica cristã em JSON puro com:
-- titulo
-- versiculo { texto, referencia }
-- reflexao
-- pontos (array)
-- oracao
+Gere uma meditação bíblica cristã EM JSON PURO no formato:
 
-Responda SOMENTE JSON válido, sem markdown.
+{
+  "titulo": "",
+  "versiculo": {
+    "texto": "",
+    "referencia": ""
+  },
+  "reflexao": "",
+  "pontos": [],
+  "oracao": ""
+}
+
+⚠️ NÃO use markdown
+⚠️ NÃO explique nada fora do JSON
 `;
 
     const result = await model.generateContent(prompt);
-    const text = result.response.text().trim();
+    const response = result.response;
+    const text = response.text();
 
-    return {
-      statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: text,
-    };
+    return new Response(text, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
   } catch (error) {
-    console.error("Erro Gemini:", error);
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: "Erro ao gerar meditação",
-        detalhes: error.message,
+    return new Response(
+      JSON.stringify({
+        error: "Erro na function",
+        message: error.message,
       }),
-    };
+      { status: 500 }
+    );
   }
 };

@@ -1,188 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Momento com Deus - IA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #121212 0%, #1e1e2f 100%);
-            min-height: 100vh;
-            color: white;
-        }
-
-        .serif { font-family: 'Playfair Display', serif; }
-
-        .glass-card {
-            background: rgba(30, 30, 47, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.1);
-            border: 1px solid rgba(0, 217, 255, 0.1);
-        }
-
-        .loader {
-            border: 3px solid #333;
-            border-top: 3px solid #00d9ff;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .fade-in { animation: fadeIn 0.6s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #00d9ff; border-radius: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Momento com Deus</title>
 </head>
-<body class="flex items-center justify-center p-4">
+<body>
+  <h1>Momento com Deus</h1>
+  <button onclick="gerar()">Gerar Meditação</button>
 
-    <div id="app" class="w-full max-w-lg">
-        <div id="home-screen" class="glass-card p-10 text-center fade-in">
-            <div class="mb-6">
-                <i class="fas fa-bible text-5xl text-cyan-400"></i>
-            </div>
-            <h1 class="serif text-3xl text-white mb-2">Palavra de Deus</h1>
-            <p class="text-slate-400 mb-8">Receba uma meditação personalizada gerada por IA.</p>
-            
-            <button id="generate-btn" onclick="generateMeditation()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-4 px-6 rounded-xl transition duration-300 flex items-center justify-center gap-3 shadow-lg group">
-                <span id="btn-text">Receber Versículo do Dia</span>
-                <div id="btn-loader" class="loader hidden"></div>
-            </button>
-            
-            <footer class="mt-8 pt-6 border-t border-slate-800">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Desenvolvido por Marcelino Albuquerque</p>
-            </footer>
-        </div>
+  <pre id="saida"></pre>
 
-        <div id="meditation-screen" class="glass-card hidden flex flex-col max-h-[90vh] fade-in relative">
-            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-                <button onclick="showHome()" class="text-slate-400 hover:text-white transition flex items-center gap-2 text-sm">
-                    <i class="fas fa-chevron-left"></i> Voltar
-                </button>
-                <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-[0.2em]">Meditação com IA</span>
-                <button id="share-btn" class="text-cyan-400 hover:text-cyan-300 transition text-xl">
-                    <i class="fas fa-share-nodes"></i>
-                </button>
-            </div>
+  <script>
+    async function gerar() {
+      const res = await fetch("/.netlify/functions/meditation");
+      const text = await res.text();
 
-            <div id="content-area" class="p-6 overflow-y-auto custom-scroll space-y-6">
-                </div>
-
-            <div class="p-4 bg-black/20 rounded-b-3xl text-center border-t border-slate-800">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Por: Marcelino Albuquerque</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-    // Mantendo sua chave e URLs seguras
-    const apiKey = "AIzaSyA6wQPttz255vUzJ16NcN18N19vReY7loU";
-    let currentMeditation = null;
-
-    async function generateMeditation() {
-        const btn = document.getElementById('generate-btn');
-        const btnText = document.getElementById('btn-text');
-        const btnLoader = document.getElementById('btn-loader');
-        
-        btn.disabled = true;
-        btnText.innerText = "Consultando as Escrituras...";
-        btnLoader.classList.remove('hidden');
-
-        // Prompt direto e simplificado
-        const promptText = "Gere uma meditação bíblica cristã em JSON puro com titulo, versiculo (texto e referencia), reflexao, pontos (lista) e oracao.";
-
-        try {
-           const response = await fetch("/.netlify/functions/meditation");
-
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                console.error("Erro detalhado da API:", data);
-                throw new Error(data.error?.message || "Erro na resposta da API");
-            }
-
-            // O Gemini às vezes coloca o JSON dentro de blocos de markdown ```json
-            let textResponse = data.candidates[0].content.parts[0].text;
-            textResponse = textResponse.replace(/```json/g, "").replace(/```/g, "").trim();
-            
-            currentMeditation = JSON.parse(textResponse);
-            renderUI(currentMeditation);
-
-        } catch (error) {
-            console.error("Erro completo no console:", error);
-            alert("Ocorreu um erro técnico. Verifique o console do navegador para detalhes.");
-        } finally {
-            btn.disabled = false;
-            btnText.innerText = "Receber Versículo do Dia";
-            btnLoader.classList.add('hidden');
-        }
+      document.getElementById("saida").innerText = text;
     }
-
-    // Funções de UI permanecem as mesmas para manter seu design bonito
-    function renderUI(data) {
-        const container = document.getElementById('content-area');
-        container.innerHTML = `
-            <div class="fade-in">
-                <h2 class="serif text-2xl text-cyan-400 mb-4">${data.titulo}</h2>
-                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 mb-6 italic text-slate-200 rounded-r-lg">
-                    "${data.versiculo.texto}"
-                    <p class="text-xs font-bold mt-2 not-italic text-cyan-400 uppercase tracking-wider">— ${data.versiculo.referencia}</p>
-                </div>
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="font-bold text-white flex items-center gap-2 text-sm mb-2">
-                            <i class="fas fa-book-open text-cyan-500"></i> Reflexão
-                        </h3>
-                        <p class="text-slate-400 leading-relaxed text-sm">${data.reflexao}</p>
-                    </div>
-                    <div class="space-y-3">
-                        ${data.pontos.map((p, i) => `
-                            <div class="flex items-start gap-3 bg-slate-800/50 p-3 rounded-xl border border-slate-700 shadow-sm">
-                                <span class="text-cyan-500 font-bold text-xs mt-0.5">${i+1}.</span>
-                                <p class="text-xs text-slate-300">${p}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="bg-cyan-600 text-white p-5 rounded-2xl relative overflow-hidden group shadow-lg">
-                        <i class="fas fa-pray absolute -right-3 -bottom-3 text-5xl opacity-20"></i>
-                        <h3 class="text-md font-semibold mb-2 flex items-center gap-2">
-                            <i class="fas fa-hands-praying"></i> Oração
-                        </h3>
-                        <p class="italic text-cyan-50 text-sm leading-relaxed">"${data.oracao}"</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.getElementById('home-screen').classList.add('hidden');
-        document.getElementById('meditation-screen').classList.remove('hidden');
-        document.getElementById('share-btn').onclick = () => shareContent(data);
-    }
-
-    function shareContent(data) {
-        const shareText = `📖 *${data.versiculo.referencia}*\n"${data.versiculo.texto}"\n\n🕊️ *Reflexão:*\n${data.reflexao}\n\n🙏 *Oração:*\n"${data.oracao}"`;
-        if (navigator.share) {
-            navigator.share({ title: 'Meditação do Dia', text: shareText }).catch(console.error);
-        } else {
-            navigator.clipboard.writeText(shareText);
-            alert("Copiado!");
-        }
-    }
-
-    function showHome() {
-        document.getElementById('meditation-screen').classList.add('hidden');
-        document.getElementById('home-screen').classList.remove('hidden');
-    }
-</script>
+  </script>
 </body>
 </html>
