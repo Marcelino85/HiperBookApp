@@ -1,57 +1,49 @@
-export default async () => {
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+export const handler = async () => {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "API KEY não configurada" }),
+      };
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash",
+    });
+
     const prompt = `
 Gere uma meditação bíblica cristã em JSON puro com:
 - titulo
 - versiculo { texto, referencia }
 - reflexao
-- pontos (array)
+- pontos (array de strings)
 - oracao
+
+⚠️ Responda SOMENTE com JSON válido. Sem markdown.
 `;
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": process.env.GEMINI_API_KEY,
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1024,
-          },
-        }),
-      }
-    );
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text().trim();
 
-    const data = await response.json();
-
-    // 🔴 SE A API RESPONDER ERRO, DEVOLVEMOS CLARO
-    if (!data.candidates || !data.candidates.length) {
-      return new Response(
-        JSON.stringify({
-          error: "Resposta inválida do Gemini",
-          detalhes: data,
-        }),
-        { status: 500 }
-      );
-    }
-
-    let text = data.candidates[0].content.parts[0].text
-      .replace(/```json|```/g, "")
-      .trim();
-
-    return new Response(text, {
+    return {
+      statusCode: 200,
       headers: { "Content-Type": "application/json" },
-    });
+      body: text,
+    };
 
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err.message }),
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Erro Gemini:", error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: "Erro ao gerar meditação",
+        detalhes: error.message,
+      }),
+    };
   }
 };
